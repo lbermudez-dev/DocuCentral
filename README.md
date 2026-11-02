@@ -52,6 +52,12 @@ DocuCentral/
 
 Los archivos se guardan como `{Repositorio}/{año}/{mes}/{idDocumento}/v001.pdf`. En la base de datos solo se guarda la ruta **relativa**, así el repositorio se puede mover cambiando únicamente la configuración (y copiando la carpeta).
 
+## Documentación de despliegue
+
+- [Guía completa para Windows Server, IIS y SQL Server separados](docs/GUIA_INSTALACION_SERVIDOR.md)
+- [Checklist de instalación y aceptación](docs/CHECKLIST_INSTALACION_SERVIDOR.md)
+- [Scripts PowerShell para publicación, instalación, pruebas y actualización](deploy/server/)
+
 ---
 
 ## Desarrollo local
