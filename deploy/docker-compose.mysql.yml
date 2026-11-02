@@ -1,0 +1,38 @@
+# Desde la raíz del proyecto:
+#   docker compose -f deploy/docker-compose.mysql.yml --env-file .env up -d --build
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: docucentral
+      MYSQL_USER: docucentral
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    volumes:
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 15
+
+  app:
+    build: { context: .., dockerfile: Dockerfile }
+    restart: unless-stopped
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["8080:8080"]
+    environment:
+      Database__Provider: MySQL
+      Database__ServerVersion: 8.4.0-mysql
+      ConnectionStrings__Default: Server=db;Database=docucentral;User=docucentral;Password=${DB_PASSWORD}
+      Jwt__Key: ${JWT_KEY}
+      Seed__AdminPassword: ${ADMIN_PASSWORD}
+    volumes:
+      - ${RUTA_REPOSITORIO}:/data/repositorio
+      - ${RUTA_ENTRADA}:/data/entrada
+      - ${RUTA_ERRORES}:/data/errores
+
+volumes:
+  mysqldata:

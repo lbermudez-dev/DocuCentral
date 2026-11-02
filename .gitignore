@@ -1,0 +1,15 @@
+node_modules/
+.npm-cache/
+dist/
+bin/
+obj/
+artifacts/
+*.tsbuildinfo
+backend/DocuCentral.Api/wwwroot/
+publicado/
+.env
+appsettings.Production.json
+datos/
+*.log
+*.user
+.vs/
